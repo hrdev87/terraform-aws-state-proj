@@ -2,7 +2,7 @@ resource "aws_elastic_beanstalk_environment" "bean-prod-env" {
   name                = "bean-prod-env"
   application         = aws_elastic_beanstalk_application.prod.name
   solution_stack_name = "64bit Amazon Linux 2023 v5.1.4 running Tomcat 9 Corretto 11"
-  cname_prefix        = "bean-prod-domain"
+  cname_prefix        = "bean-prod-domain-2024-hr"
 
   setting {
     name      = "VPCid"
