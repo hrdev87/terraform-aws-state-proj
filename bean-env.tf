@@ -25,13 +25,13 @@ resource "aws_elastic_beanstalk_environment" "bean-prod-env" {
   setting {
     namespace = "aws:ec2:vpc"
     name      = "Subnets"
-    value     = join(",", [module.vpc.private_subnets[0], module.vpc.private_subnets[1], module.vpc.private_subnets[2]])
+    value     = join(",", [module.vpc.private_subnets[0], module.vpc.private_subnets[1]])
   }
 
   setting {
     namespace = "aws:ec2:vpc"
     name      = "ELBSubnets"
-    value     = join(",", [module.vpc.public_subnets[0], module.vpc.public_subnets[1], module.vpc.public_subnets[2]])
+    value     = join(",", [module.vpc.public_subnets[0], module.vpc.public_subnets[1]])
   }
 
   setting {
