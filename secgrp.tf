@@ -14,7 +14,7 @@ resource "aws_security_group" "beanstalk-elb-sg" {
     to_port     = 80
     cidr_blocks = ["0.0.0.0/0"]
   }
-  depends_on = [ module.vpc ]
+  depends_on = [module.vpc]
 }
 
 
@@ -34,7 +34,7 @@ resource "aws_security_group" "bastion-sg" {
     to_port     = 22
     cidr_blocks = [var.MYIP]
   }
-    depends_on = [ module.vpc ]
+  depends_on = [module.vpc]
 }
 
 resource "aws_security_group" "prod-sg" {
@@ -53,7 +53,7 @@ resource "aws_security_group" "prod-sg" {
     to_port         = 22
     security_groups = [aws_security_group.bastion-sg.id]
   }
-    depends_on = [ module.vpc ]
+  depends_on = [module.vpc]
 }
 
 resource "aws_security_group" "backend-sg" {
@@ -72,7 +72,7 @@ resource "aws_security_group" "backend-sg" {
     to_port         = 0
     security_groups = [aws_security_group.prod-sg.id]
   }
-    depends_on = [ module.vpc ]
+  depends_on = [module.vpc]
 }
 
 resource "aws_security_group_rule" "sec_grp_allow_itself" {
@@ -82,6 +82,6 @@ resource "aws_security_group_rule" "sec_grp_allow_itself" {
   protocol                 = "tcp"
   security_group_id        = aws_security_group.backend-sg.id
   source_security_group_id = aws_security_group.backend-sg.id
-    depends_on = [ module.vpc ]
+  depends_on               = [module.vpc]
 }
 
