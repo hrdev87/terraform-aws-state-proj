@@ -2,7 +2,7 @@ resource "aws_instance" "bastion-host" {
   ami                    = var.AMIS
   instance_type          = "t2.micro"
   key_name               = aws_key_pair.sshkey.key_name
-  subnet_id              = module.vpc.public_subnets[0]
+  subnet_id              = module.vpc.public_subnets[1]
   count                  = var.instance_count
   vpc_security_group_ids = [aws_security_group.bastion-sg.id]
 
@@ -19,6 +19,7 @@ resource "aws_instance" "bastion-host" {
   provisioner "file" {
     content     = templatefile("templates/db-deploy.tmpl", { rds-endpoint = aws_db_instance.rds.address, dbuser = var.dbuser, dbpass = var.dbpass })
     destination = "/tmp/dbdeploy.sh"
+
   }
   provisioner "remote-exec" {
     inline = [
@@ -29,5 +30,3 @@ resource "aws_instance" "bastion-host" {
 
   depends_on = [aws_db_instance.rds]
 }
-
-
