@@ -10,6 +10,11 @@ resource "aws_instance" "bastion-host" {
     name    = "bastion-host"
     project = "aws-terraform-state"
   }
+  connection {
+    user        = var.USERNAME
+    private_key = file(var.PRIV_KEY_PATH)
+    host        = self.public_ip
+  }
 
   provisioner "file" {
     content     = templatefile("templates/db-deploy.tmpl", { rds-endpoint = aws_db_instance.rds.address, dbuser = var.dbuser, dbpass = var.dbpass })
@@ -17,14 +22,12 @@ resource "aws_instance" "bastion-host" {
   }
   provisioner "remote-exec" {
     inline = [
-      "sudo chmod +x /tmp/dbdeploy.sh", "sudo /tmp/dbdeploy.sh"
+      "sudo chmod +x /tmp/dbdeploy.sh",
+      "sudo /tmp/dbdeploy.sh"
     ]
   }
 
-  connection {
-    user        = var.USERNAME
-    private_key = file(var.PRIV_KEY_PATH)
-    host        = self.public_ip
-  }
   depends_on = [aws_db_instance.rds]
 }
+
+
