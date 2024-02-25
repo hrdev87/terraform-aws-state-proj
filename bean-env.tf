@@ -5,7 +5,7 @@ resource "aws_elastic_beanstalk_environment" "bean-prod-env" {
   cname_prefix        = "bean-prod-domain-2024-hr"
 
   setting {
-    name      = "VPCid"
+    name      = "VPCId"
     namespace = "aws:ec2:vpc"
     value     = module.vpc.vpc_id
   }
